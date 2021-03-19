@@ -36,6 +36,7 @@ import {
 	DidLoginNotificationType,
 	DidLogoutNotification,
 	DidLogoutNotificationType,
+	DidSetEnvironmentNotification,
 	DidStartLoginNotificationType,
 	EditPostRequestType,
 	FetchCodemarksRequestType,
@@ -99,7 +100,8 @@ import {
 	UpdateUserRequest,
 	UpdateUserRequestType,
 	UserDidCommitNotificationType,
-	UserDidCommitNotification
+	UserDidCommitNotification,
+	DidSetEnvironmentNotificationType
 } from "@codestream/protocols/agent";
 import {
 	ChannelServiceType,
@@ -206,7 +208,9 @@ export class CodeStreamAgentConnection implements Disposable {
 		return this._onUserDidCommit.event;
 	}
 
-	private _onDidDetectUnreviewedCommits = new EventEmitter<DidDetectUnreviewedCommitsNotification>();
+	private _onDidDetectUnreviewedCommits = new EventEmitter<
+		DidDetectUnreviewedCommitsNotification
+	>();
 	get onDidDetectUnreviewedCommits(): Event<DidDetectUnreviewedCommitsNotification> {
 		return this._onDidDetectUnreviewedCommits.event;
 	}
@@ -229,6 +233,11 @@ export class CodeStreamAgentConnection implements Disposable {
 	private _onAgentInitialized = new EventEmitter<void>();
 	get onAgentInitialized(): Event<void> {
 		return this._onAgentInitialized.event;
+	}
+
+	private _onDidSetEnvironment = new EventEmitter<DidSetEnvironmentNotification>();
+	get onDidSetEnvironment(): Event<DidSetEnvironmentNotification> {
+		return this._onDidSetEnvironment.event;
 	}
 
 	private _client: LanguageClient | undefined;
@@ -1115,7 +1124,14 @@ export class CodeStreamAgentConnection implements Disposable {
 			this._onAgentInitialized.fire();
 		});
 		this._client.onNotification(UserDidCommitNotificationType, this.onUserCommitted.bind(this));
-		this._client.onNotification(DidDetectUnreviewedCommitsNotificationType, this.onUnreviewedCommitsDetected.bind(this));
+		this._client.onNotification(
+			DidDetectUnreviewedCommitsNotificationType,
+			this.onUnreviewedCommitsDetected.bind(this)
+		);
+		this._client.onNotification(DidSetEnvironmentNotificationType, e =>
+			this._onDidSetEnvironment.fire(e)
+		);
+
 		this._client.onRequest(AgentOpenUrlRequestType, e => this._onOpenUrl.fire(e));
 	}
 

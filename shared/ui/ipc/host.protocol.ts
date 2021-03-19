@@ -27,6 +27,7 @@ export interface BootstrapInHostResponse {
 	version: string;
 	context: Partial<WebviewContext>;
 	env?: CodeStreamEnvironment | string;
+	isOnPrem?: boolean;
 	ide?: {
 		name: string | undefined;
 		detail: string | undefined;

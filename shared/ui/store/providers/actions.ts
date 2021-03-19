@@ -17,7 +17,6 @@ import { CSMe } from "@codestream/protocols/api";
 import { logError } from "../../logger";
 import { setIssueProvider, openPanel } from "../context/actions";
 import { deleteForProvider } from "../activeIntegrations/actions";
-import { isOnPrem } from "../configs/reducer";
 
 export const reset = () => action("RESET");
 
@@ -39,7 +38,7 @@ export const configureAndConnectProvider = (
 	const { providers, configs } = getState();
 	const provider = providers[providerId];
 	const { forEnterprise, isEnterprise, name, needsConfigure, needsConfigureForOnPrem } = provider;
-	const onprem = isOnPrem(configs);
+	const onprem = configs.isOnPrem;
 	connectionLocation = connectionLocation || "Integrations Panel";
 	if (needsConfigure || (onprem && needsConfigureForOnPrem)) {
 		dispatch(openPanel(`configure-provider-${provider.name}-${provider.id}-${connectionLocation}`));

@@ -95,6 +95,7 @@ export interface CSLoginResponse {
 	capabilities?: CSApiCapabilities;
 	features?: CSApiFeatures;
 	runtimeEnvironment?: string;
+	isOnPrem?: boolean;
 }
 
 export interface CSRegisterRequest {

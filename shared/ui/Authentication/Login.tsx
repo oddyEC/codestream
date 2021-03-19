@@ -6,7 +6,7 @@ import Button from "../Stream/Button";
 import { authenticate, startSSOSignin, startIDESignin } from "./actions";
 import { CodeStreamState } from "../store";
 import { goToNewUserEntry, goToForgotPassword, goToOktaConfig } from "../store/context/actions";
-import { isOnPrem, supportsIntegrations } from "../store/configs/reducer";
+import { supportsSSOSignIn } from "../store/configs/reducer";
 
 const isPasswordInvalid = password => password.length === 0;
 const isEmailInvalid = email => {
@@ -18,7 +18,7 @@ const isEmailInvalid = email => {
 
 interface ConnectedProps {
 	initialEmail?: string;
-	supportsIntegrations?: boolean;
+	supportsSSOSignIn?: boolean;
 	oktaEnabled?: boolean;
 	isInVSCode?: boolean;
 	supportsVSCodeGithubSignin?: boolean;
@@ -204,7 +204,7 @@ class Login extends React.Component<Props, State> {
 					<fieldset className="form-body">
 						{/* this.renderAccountMessage() */}
 						<div id="controls">
-							{this.props.supportsIntegrations && (
+							{this.props.supportsSSOSignIn && (
 								<div className="border-bottom-box">
 									<Button
 										className="row-button zero-top-margin"
@@ -319,13 +319,20 @@ const ConnectedLogin = connect<ConnectedProps, any, any, CodeStreamState>(
 	(state, props) => {
 		return {
 			initialEmail: props.email !== undefined ? props.email : state.configs.email,
-			supportsIntegrations: supportsIntegrations(state.configs),
-			oktaEnabled: isOnPrem(state.configs),
-			isInVSCode: state.ide.name === 'VSC',
+			supportsSSOSignIn: supportsSSOSignIn(state.configs),
+			oktaEnabled: state.configs.isOnPrem,
+			isInVSCode: state.ide.name === "VSC",
 			supportsVSCodeGithubSignin: state.capabilities.vsCodeGithubSignin
 		};
 	},
-	{ authenticate, goToNewUserEntry, startSSOSignin, startIDESignin, goToForgotPassword, goToOktaConfig }
+	{
+		authenticate,
+		goToNewUserEntry,
+		startSSOSignin,
+		startIDESignin,
+		goToForgotPassword,
+		goToOktaConfig
+	}
 )(Login);
 
 export { ConnectedLogin as Login };

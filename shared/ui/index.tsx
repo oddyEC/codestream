@@ -104,12 +104,15 @@ export async function initialize(selector: string) {
 	HostApi.instance.notify(WebviewDidInitializeNotificationType, {});
 
 	// verify we can connect to the server, if successful, as a side effect,
-	// we get the api server's capabilities
+	// we get the api server's capabilities and our environment
 	const resp = await HostApi.instance.send(VerifyConnectivityRequestType, void {});
 	if (resp.error) {
 		store.dispatch(errorOccurred(resp.error.message, resp.error.details));
-	} else if (resp.capabilities) {
-		store.dispatch(updateCapabilities(resp.capabilities));
+	} else {
+		if (resp.capabilities) {
+			store.dispatch(updateCapabilities(resp.capabilities));
+		}
+		store.dispatch(updateConfigs({ isOnPrem: resp.isOnPrem }));
 	}
 }
 

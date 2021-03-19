@@ -24,7 +24,10 @@ export class StatusBarController implements Disposable {
 		this._disposable = Disposable.from(
 			configuration.onDidChange(this.onConfigurationChanged, this),
 			Container.session.onDidChangeSessionStatus(this.onSessionStatusChanged, this),
-			Container.session.onDidChangeUnreads(this.onUnreadsChanged, this)
+			Container.session.onDidChangeUnreads(this.onUnreadsChanged, this),
+			Container.agent.onDidSetEnvironment(() => {
+				this.updateStatusBar(Container.session.status);
+			})
 		);
 
 		this.onConfigurationChanged(configuration.initializingChangeEvent);
@@ -90,14 +93,14 @@ export class StatusBarController implements Disposable {
 		}
 
 		let env;
+		const onprem = Container.session.isOnPrem ? " (on-prem)" : "";
 		switch (Container.session.environment) {
-			case CodeStreamEnvironment.Local:
-			case CodeStreamEnvironment.Production:
 			case CodeStreamEnvironment.Unknown:
+			case CodeStreamEnvironment.Production:
 				env = "";
 				break;
 			default:
-				env = `${Container.session.environment.toUpperCase()}: `;
+				env = `${Container.session.environment.toUpperCase()}${onprem}: `;
 				break;
 		}
 

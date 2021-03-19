@@ -20,7 +20,7 @@ import { logError } from "../logger";
 import { useDispatch, useSelector } from "react-redux";
 import { useDidMount } from "../utilities/hooks";
 import { Loading } from "../Container/Loading";
-import { isOnPrem, supportsIntegrations } from "../store/configs/reducer";
+import { supportsSSOSignIn } from "../store/configs/reducer";
 import { Server } from "../webview-api";
 
 const isPasswordValid = (password: string) => password.length >= 6;
@@ -58,8 +58,8 @@ export const Signup = (props: Props) => {
 	const dispatch = useDispatch();
 	const derivedState = useSelector((state: CodeStreamState) => {
 		return {
-			supportsIntegrations: supportsIntegrations(state.configs),
-			oktaEnabled: isOnPrem(state.configs),
+			supportsSSOSignIn: supportsSSOSignIn(state.configs),
+			oktaEnabled: state.configs.isOnPrem,
 			isInVSCode: state.ide.name === "VSC",
 			supportsVSCodeGithubSignin: state.capabilities.vsCodeGithubSignin
 		};
@@ -334,7 +334,7 @@ export const Signup = (props: Props) => {
 
 	return (
 		<div className="onboarding-page">
-			{derivedState.supportsIntegrations && showOauth && (
+			{derivedState.supportsSSOSignIn && showOauth && (
 				<form className="standard-form">
 					<fieldset className="form-body" style={{ paddingTop: 0, paddingBottom: 0 }}>
 						<div id="controls">

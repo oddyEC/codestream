@@ -24,7 +24,6 @@ import { getConnectedProviderNames } from "@codestream/webview/store/providers/r
 import { updateForProvider } from "@codestream/webview/store/activeIntegrations/actions";
 import { CodeStreamIssueControls } from "./CodeStreamIssueControls";
 import { CSTeamSettings } from "@codestream/protocols/api";
-import { isOnPrem } from "../../store/configs/reducer";
 
 interface ProviderInfo {
 	provider: ThirdPartyProviderConfig;
@@ -416,7 +415,7 @@ const mapStateToProps = (state: CodeStreamState): ConnectedProps => {
 		issueProviderConfig: currentIssueProviderConfig,
 		connectedProviderNames: getConnectedProviderNames(state),
 		teamSettings,
-		isOnPrem: isOnPrem(configs) || false
+		isOnPrem: configs.isOnPrem
 	};
 };
 

@@ -317,7 +317,6 @@ export interface ApiProvider {
 	readonly meUser: CSMe | undefined;
 	readonly capabilities: Capabilities;
 	readonly features: CSApiFeatures | undefined;
-	readonly runTimeEnvironment: string | undefined;
 
 	providerType: ProviderType;
 

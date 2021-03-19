@@ -339,7 +339,7 @@ export abstract class ThirdPartyProviderBase<
 		if (
 			info.protocol === "https:" &&
 			this.session.disableStrictSSL &&
-			(this.session.runTimeEnvironment !== "onprem" ||
+			(!this.session.isOnPrem ||
 				this.providerConfig.forEnterprise ||
 				this.providerConfig.isEnterprise)
 		) {

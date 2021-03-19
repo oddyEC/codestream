@@ -50,7 +50,6 @@ import { EMPTY_STATUS } from "./StartWork";
 import Tooltip from "./Tooltip";
 import { PullRequestFilesChangedList } from "./PullRequestFilesChangedList";
 import { PRBranch, PRError } from "./PullRequestComponents";
-import { isOnPrem } from "../store/configs/reducer";
 
 export const ButtonRow = styled.div`
 	text-align: right;
@@ -151,7 +150,7 @@ export const CreatePullRequestPanel = props => {
 			currentRepo: context.currentRepo,
 			ideName: state.ide.name,
 			newPullRequestOptions: state.context.newPullRequestOptions,
-			isOnPrem: isOnPrem(configs)
+			isOnPrem: configs.isOnPrem
 		};
 	});
 	const { userStatus, reviewId, prLabel } = derivedState;

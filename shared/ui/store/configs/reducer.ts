@@ -8,7 +8,8 @@ type ConfigsActions = ActionType<typeof actions>;
 const initialState: ConfigsState = {
 	showHeadshots: true,
 	debug: false,
-	serverUrl: ""
+	serverUrl: "",
+	isOnPrem: false
 };
 
 export function reduceConfigs(state = initialState, { type, payload }: ConfigsActions) {
@@ -20,16 +21,11 @@ export function reduceConfigs(state = initialState, { type, payload }: ConfigsAc
 	}
 }
 
-export const supportsIntegrations = (configs: Partial<ConfigsState>) => {
+export const supportsSSOSignIn = (configs: Partial<ConfigsState>) => {
+	// we can't support SSO sign-in if we are not using https
 	if (!configs.serverUrl || url.parse(configs.serverUrl).protocol === "https:") {
 		return true;
 	} else {
 		return false;
 	}
-};
-
-export const isOnPrem = (configs: Partial<ConfigsState>) => {
-	const { serverUrl } = configs;
-	const match = serverUrl!.match(/^https?:\/\/(.+)\.codestream\.(us|com)/);
-	return !match || match[1] === "oppr" || match[1] === "opbeta";
 };

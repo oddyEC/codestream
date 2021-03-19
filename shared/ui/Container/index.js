@@ -18,7 +18,6 @@ import { ApiVersioningActionsType } from "../store/apiVersioning/types";
 import { errorDismissed } from "@codestream/webview/store/connectivity/actions";
 import { ThemeProvider } from "styled-components";
 import { darkTheme, createTheme } from "../src/themes";
-import { isOnPrem } from "../store/configs/reducer";
 
 const mapStateToProps = state => {
 	const team = state.teams[state.context.currentTeamId];
@@ -32,7 +31,7 @@ const mapStateToProps = state => {
 		apiVersioning: state.apiVersioning,
 		ide: state.ide && state.ide.name ? state.ide.name : undefined,
 		serverUrl: state.configs.serverUrl,
-		isOnPrem: isOnPrem(state.configs)
+		isOnPrem: state.configs.isOnPrem
 	};
 };
 
@@ -115,7 +114,8 @@ const Root = connect(mapStateToProps)(props => {
 			<RoadBlock title="Update Required">
 				<p>
 					We're all for vintage, but your version of CodeStream is simply too old! Please update to
-					the latest version to continue. You may need to update your IDE as well if it isn't recent.
+					the latest version to continue. You may need to update your IDE as well if it isn't
+					recent.
 				</p>
 				{getIdeInstallationInstructions(props)}
 			</RoadBlock>

@@ -34,7 +34,6 @@ import { UserStatus } from "../src/components/UserStatus";
 import { SelectPeople } from "../src/components/SelectPeople";
 import { HeadshotName } from "../src/components/HeadshotName";
 import { InlineMenu } from "../src/components/controls/InlineMenu";
-import { isOnPrem } from "../store/configs/reducer";
 import { PaneHeader, Pane, PaneBody, PaneNode, PaneNodeName } from "../src/components/Pane";
 import { Modal } from "./Modal";
 import { Dialog } from "../src/components/Dialog";
@@ -1129,7 +1128,7 @@ const mapStateToProps = state => {
 		emailSupported,
 		autoJoinSupported,
 		serverUrl: configs.serverUrl,
-		isOnPrem: isOnPrem(configs),
+		isOnPrem: configs.isOnPrem,
 		hiddenPaneNodes: preferences.hiddenPaneNodes || EMPTY_HASH_2,
 		userTeams: _sortBy(
 			Object.values(teams).filter((t: any) => !t.deactivated),

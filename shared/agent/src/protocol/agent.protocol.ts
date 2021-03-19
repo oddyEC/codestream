@@ -130,6 +130,7 @@ export interface AgentState {
 	capabilities: Capabilities;
 	email: string;
 	environment: CodeStreamEnvironment | string;
+	isOnPrem: boolean;
 	serverUrl: string;
 	teamId: string;
 	userId: string;
@@ -155,6 +156,8 @@ export interface VerifyConnectivityResponse {
 	capabilities?: {
 		[key: string]: any;
 	};
+	environment?: string;
+	isOnPrem?: boolean;
 }
 
 export const VerifyConnectivityRequestType = new RequestType<

@@ -21,7 +21,6 @@ import { Button } from "../src/components/Button";
 import { DropdownButton } from "./Review/DropdownButton";
 import { PrePRProviderInfoModal } from "./PrePRProviderInfoModal";
 import { Dialog } from "../src/components/Dialog";
-import { isOnPrem } from "../store/configs/reducer";
 
 export const Provider = styled(Button)`
 	width: 100%;
@@ -123,7 +122,7 @@ export const IntegrationsPanel = () => {
 			currentTeam: team,
 			currentUser: user,
 			currentUserIsAdmin,
-			isOnPrem: isOnPrem(configs)
+			isOnPrem: configs.isOnPrem
 		};
 	});
 

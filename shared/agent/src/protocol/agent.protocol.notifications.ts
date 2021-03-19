@@ -336,3 +336,13 @@ export const DidDetectUnreviewedCommitsNotificationType = new NotificationType<
 	DidDetectUnreviewedCommitsNotification,
 	void
 >("codestream/didDetectUnreviewedCommits");
+
+export interface DidSetEnvironmentNotification {
+	environment: string;
+	isOnPrem: boolean;
+}
+
+export const DidSetEnvironmentNotificationType = new NotificationType<
+	DidSetEnvironmentNotification,
+	void
+>("codestream/didSetEnvironment");

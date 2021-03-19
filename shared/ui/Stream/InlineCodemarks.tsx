@@ -83,7 +83,6 @@ import { PanelHeader } from "../src/components/PanelHeader";
 import * as fs from "../utilities/fs";
 import { FileInfo } from "./FileInfo";
 import { isFeatureEnabled } from "../store/apiVersioning/reducer";
-import { supportsIntegrations } from "../store/configs/reducer";
 import { Keybindings } from "./Keybindings";
 import { setNewPostEntry } from "../store/context/actions";
 import { PullRequest } from "./PullRequest";
@@ -128,7 +127,6 @@ interface Props {
 	currentPullRequestProviderId?: string;
 	lightningCodeReviewsEnabled: boolean;
 	activePanel: WebviewPanels;
-	supportsIntegrations: boolean;
 
 	setEditorContext: (
 		...args: Parameters<typeof setEditorContext>
@@ -1135,19 +1133,6 @@ export class SimpleInlineCodemarks extends Component<Props, State> {
 						<Icon name="arrow-down" />
 					</ViewSelectorControl>
 				)}
-				{/*  {false && this.props.supportsIntegrations && (
-					<Tooltip title="Show/hide pull request comments" placement="top" delay={1}>
-						<ViewSelectorControl onClick={this.togglePRComments} id="pr-toggle">
-							<span>PRs</span>{" "}
-							<Switch
-								size="small"
-								on={this.props.showPRComments}
-								onChange={this.togglePRComments}
-							/>
-						</ViewSelectorControl>
-					</Tooltip>
-				)}
-				*/}
 				{numHidden > 0 && (
 					<Tooltip title="Show/hide archived codemarks" placement="top" delay={1}>
 						<ViewSelectorControl onClick={this.toggleShowHidden}>
@@ -1431,7 +1416,6 @@ const mapStateToProps = (state: CodeStreamState) => {
 		isInVscode: ide.name === "VSC",
 		webviewFocused: context.hasFocus,
 		lightningCodeReviewsEnabled: isFeatureEnabled(state, "lightningCodeReviews"),
-		supportsIntegrations: supportsIntegrations(configs),
 		composeCodemarkActive: context.composeCodemarkActive,
 		newPostEntryPoint: context.newPostEntryPoint
 	};

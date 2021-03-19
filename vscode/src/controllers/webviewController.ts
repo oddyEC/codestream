@@ -1150,6 +1150,7 @@ export class WebviewController implements Disposable {
 				team: Container.config.team
 			},
 			env: this.session.environment,
+			isOnPrem: this.session.isOnPrem,
 			ide: {
 				name: "VSC",
 				detail: env.appName
